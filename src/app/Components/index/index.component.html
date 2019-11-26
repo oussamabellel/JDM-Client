@@ -32,6 +32,7 @@
 </form>
 
 <div class="container">
-    <app-result [message]="message" [no_relout]="no_relout" [relation]="relation" [no_relin]="no_relin" *ngIf="message">
+    <app-result (messageEvent)="receiveMessage($event)" [message]="message" [no_relout]="no_relout"
+        [relation]="relation" [no_relin]="no_relin" *ngIf="message">
     </app-result>
 </div>

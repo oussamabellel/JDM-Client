@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-index',
@@ -15,6 +16,10 @@ export class IndexComponent implements OnInit {
 
   constructor(private ngxService: NgxUiLoaderService) { }
 
+  receiveMessage($event) {
+    this.message = $event;
+    $('#mot').val(this.message);
+  }
   ngOnInit() {
     this.no_relout = false;
     this.no_relin = false;

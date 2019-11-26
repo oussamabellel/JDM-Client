@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ServiceService } from 'src/app/Service/service.service';
 import { Mot } from 'src/app/Model/Mot';
 import { Relation } from 'src/app/Model/Relation';
 import { Key } from 'protractor';
-import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-result',
@@ -27,8 +27,14 @@ export class ResultComponent implements OnInit {
   SortEmpty: any;
   EnterEmpty: any;
 
+  @Output() messageEvent = new EventEmitter<string>();
+
+
   constructor(private httpClient: HttpClient, private apiWord: ServiceService, private ngxLoader: NgxUiLoaderService) { }
 
+  sendMessage(mot: string) {
+    this.messageEvent.emit(mot)
+  }
   ngOnInit() {
   }
 
@@ -39,7 +45,7 @@ export class ResultComponent implements OnInit {
     if (changes['relation'] !== undefined)
       this.relation = changes['relation'].currentValue;
 
-    this.ngxLoader.startLoader('loader-01'); // start non-master loader
+    this.ngxLoader.startLoader('loader-01');
 
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
 
@@ -59,33 +65,15 @@ export class ResultComponent implements OnInit {
 
       this.ngxLoader.stopLoader('loader-01');
 
-      //this.SortEmpty = Object.keys(this.res.mapSortantes).length === 0 && this.res.mapSortantes.constructor === Object;
-      //this.EnterEmpty = Object.keys(this.res.mapEntrantes).length === 0 && this.res.mapEntrantes.constructor === Object;
-      //console.log(this.SortEmpty, this.EnterEmpty)
-
-
-      // //console.log(res.mapEntrantes);
-      // var getKeysArray = Object.keys(res.mapEntrantes);
-      // var getValueArray = Object.values(res.mapEntrantes);
-
-      // Object.keys(res.mapEntrantes).forEach(Key => {
-      //   console.log(Key + " : \n")
-      //   res.mapEntrantes[Key].forEach(element => {
-      //     console.log(element);
-      //   });
-      // });
-      // //console.log(getKeysArray, getValueArray)
-
     })
 
 
   }
 
   NewSearch(mot: string) {
-    console.log(mot);
     this.message = mot;
     this.ngxLoader.startLoader('loader-01'); // start non-master loader
-
+    this.sendMessage(mot);
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
 
 
