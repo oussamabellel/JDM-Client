@@ -1,115 +1,158 @@
 <div style="position: relative">
-    <!-- the position of the parent container must be set to relative -->
-    <!-- It is really important to set loaderId for non-master loader -->
-    <ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+	<!-- the position of the parent container must be set to relative -->
+	<!-- It is really important to set loaderId for non-master loader --><ngx-ui-loader [loaderId]="'loader-01'"> </ngx-ui-loader>
 </div>
 <div *ngIf="res">
-    <div class="text-center" *ngIf="res.id != 0">
-        <p> <b> le terme </b> : {{ message }}</p>
-        <p> <b> id </b> : {{ res.id }} </p>
-        <p> <b> poids </b> : {{res.poids}}</p>
-        <!-- <p> <b> type </b> : <b> id </b> : {{res.type.id}}, <b>nom </b>: {{res.type.nom}} </p> -->
-    </div>
+	<div class="text-center" *ngIf="res.id != 0">
+		<p>
+			<b>
+				le terme
+			</b>
+			:
+			{{ message }}</p>
+		<p>
+			<b>
+				id
+			</b>
+			:
+			{{ res.id }}
+		</p>
+		<p>
+			<b>
+				poids
+			</b>
+			:
+			{{res.poids}}</p>
+		<!-- <p> <b> type </b> : <b> id </b> : {{res.type.id}}, <b>nom </b>: {{res.type.nom}} </p> -->
+	</div>
 
-    <div *ngIf="res.definition?.length > 0">
-        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Show
-            definitions</button>
-        <div id="demo" class="collapse">
-            <ul class="list-group" *ngFor="let def of res.definition">
-                <li class="list-group-item">{{def}}</li>
-            </ul>
-        </div>
-    </div>
 
-    <hr>
+	<div class="row">
+		<div class="col-xs-3 mb-1">
+			<div *ngIf="res.definition?.length > 0">
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Show definitions</button>
+				<div id="demo" class="collapse">
+					<ul class="list-group" *ngFor="let def of res.definition">
+						<li class="list-group-item">{{def}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-    <div *ngIf="res.definition?.length <= 0">
-        <div class="alert alert-primary">
-            <strong>Aucune définition trouvée ! </strong>
-        </div>
-    </div>
+		<div class="col-xs-3">
+			<div *ngIf="res.rafDefinitions?.length > 0">
+				<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement sémantique detected !</button>
+				<div id="demo2" class="collapse">
+					<ul class="list-group" *ngFor="let raf_def of res.rafDefinitions">
+						<li class="list-group-item">{{raf_def}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
 
-    <div class="row">
-        <div class="col" *ngIf="no_relin == false">
-            <div *ngIf="EnterEmpty?.length == 0 || !EnterEmpty; else noEn">
-                <div class="alert alert-primary">
-                    <strong>Aucune relations entrantes trouvées ! </strong>
-                </div>
-            </div>
-            <ng-template #noEn>
-                <h2> Relations Entrantes </h2>
-                <hr>
-                <div *ngFor="let relation of res.mapEntrantes | keyvalue; let i = index">
+	<div *ngIf="res.definition?.length <= 0">
+		<div class="alert alert-primary">
+			<strong>Aucune définition trouvée !
+			</strong>
+		</div>
+	</div>
 
-                    <h5> Relation : {{relation.key}} </h5>
+	<div class="row">
+		<div class="col" *ngIf="no_relin == false">
+			<div *ngIf="EnterEmpty?.length == 0 || !EnterEmpty; else noEn">
+				<div class="alert alert-primary">
+					<strong>Aucune relations entrantes trouvées !
+					</strong>
+				</div>
+			</div>
+			<ng-template #noEn>
+				<h2>
+					Relations Entrantes
+				</h2>
+				<hr>
+				<div *ngFor="let relation of res.mapEntrantes | keyvalue; let i = index">
 
-                    <table class="table table-hover">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>NomNoeud</th>
-                                <th>Poids</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let relIn of relation.value | slice: (i-1) * 10 : (i-1) * 10 + 10">
-                                <td (click)="NewSearch(relIn.noeud.nom)"> <a href="#">{{relIn.noeud.nom}} </a></td>
-                                <td>{{relIn.poids}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+					<h5>
+						Relation :
+						{{relation.key}}
+					</h5>
 
-                    <ngb-pagination [(page)]="i-i" [pageSize]="10" [collectionSize]="relation.value.length"
-                        [maxSize]="10">
-                    </ngb-pagination>
+					<table class="table table-hover">
+						<thead class="table-primary">
+							<tr>
+								<th>NomNoeud</th>
+								<th>Poids</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let relIn of relation.value | slice: (i-1) * 10 : (i-1) * 10 + 10">
+								<td (click)="NewSearch(relIn.noeud.nom)">
+									<a href="#">{{relIn.noeud.nom}}
+									</a>
+								</td>
+								<td>{{relIn.poids}}</td>
+							</tr>
+						</tbody>
+					</table>
 
-                </div>
+					<ngb-pagination [(page)]="i-i" [pageSize]="10" [collectionSize]="relation.value.length" [maxSize]="10"></ngb-pagination>
 
-            </ng-template>
+				</div>
 
-        </div>
+			</ng-template>
 
-        <hr>
+		</div>
 
-        <div class="col" *ngIf="no_relout == false">
-            <div *ngIf="SortEmpty?.length == 0 || !SortEmpty; else noSort">
-                <div class="alert alert-primary">
-                    <strong>Aucune relations sortantes trouvées ! </strong>
-                </div>
-            </div>
+		<hr>
 
-            <ng-template #noSort>
+		<div class="col" *ngIf="no_relout == false">
+			<div *ngIf="SortEmpty?.length == 0 || !SortEmpty; else noSort">
+				<div class="alert alert-primary">
+					<strong>Aucune relations sortantes trouvées !
+					</strong>
+				</div>
+			</div>
 
-                <h2> Relations Sortantes </h2>
+			<ng-template #noSort>
 
-                <hr>
+				<h2>
+					Relations Sortantes
+				</h2>
 
-                <div *ngFor="let relationOut of res.mapSortantes | keyvalue; let j = index">
+				<hr>
 
-                    <h5> Relation : {{relationOut.key}} </h5>
+				<div *ngFor="let relationOut of res.mapSortantes | keyvalue; let j = index">
 
-                    <table class="table table-hover">
-                        <thead class="table-success">
-                            <tr>
-                                <th>idRelation</th>
-                                <th>Poids</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let relOut of relationOut.value | slice: (j-1) * 10 : (j-1) * 10 + 10">
-                                <td (click)="NewSearch(relOut.noeud.nom)"><a href="#">{{relOut.noeud.nom}}</a></td>
-                                <td>{{relOut.poids}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+					<h5>
+						Relation :
+						{{relationOut.key}}
+					</h5>
 
-                    <ngb-pagination [(page)]="j-j" [pageSize]="10" [collectionSize]="relationOut.value.length"
-                        [maxSize]="10">
-                    </ngb-pagination>
+					<table class="table table-hover">
+						<thead class="table-success">
+							<tr>
+								<th>idRelation</th>
+								<th>Poids</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let relOut of relationOut.value | slice: (j-1) * 10 : (j-1) * 10 + 10">
+								<td (click)="NewSearch(relOut.noeud.nom)">
+									<a href="#">{{relOut.noeud.nom}}</a>
+								</td>
+								<td>{{relOut.poids}}</td>
+							</tr>
+						</tbody>
+					</table>
 
-                </div>
+					<ngb-pagination [(page)]="j-j" [pageSize]="10" [collectionSize]="relationOut.value.length" [maxSize]="10"></ngb-pagination>
 
-            </ng-template>
+				</div>
 
-        </div>
+			</ng-template>
 
-    </div>
+		</div>
+
+	</div>

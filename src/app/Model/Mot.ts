@@ -11,6 +11,7 @@ export class Mot extends Noeud {
     relationSortantes: Relation[];
     mapEntrantes: Map<string, Relation[]>;
     mapSortantes: Map<string, Relation[]>;
+    rafDefinitions: string[];
 
     constructor(id: number,
         nom: string,
@@ -23,7 +24,8 @@ export class Mot extends Noeud {
         relationEntrantes: Relation[],
         relationSortantes: Relation[],
         mapEntrantes: Map<string, Relation[]>,
-        mapSortantes: Map<string, Relation[]>) {
+        mapSortantes: Map<string, Relation[]>,
+        rafDefinitions: string[]) {
         super(id, nom, type, poids, motFormate, relations);
         this.definition = definition;
         this.Noeuds = Noeuds,
@@ -31,6 +33,7 @@ export class Mot extends Noeud {
         this.relationSortantes = relationSortantes;
         this.mapEntrantes = mapEntrantes;
         this.mapSortantes = mapSortantes;
+        this.rafDefinitions = rafDefinitions;
     }
 
 
