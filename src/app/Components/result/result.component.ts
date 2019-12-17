@@ -24,8 +24,11 @@ export class ResultComponent implements OnInit {
   page2 = 1;
   pageSize2 = 10;
 
+  pages = {};
+  pagesSortantes = {};
+
   SortEmpty: any;
-  EnterEmpty: any;
+  EnterEmpty: any = null;
 
   @Output() messageEvent = new EventEmitter<string>();
 
@@ -36,6 +39,7 @@ export class ResultComponent implements OnInit {
     this.messageEvent.emit(mot)
   }
   ngOnInit() {
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -51,6 +55,18 @@ export class ResultComponent implements OnInit {
 
 
       this.res = res;
+
+      this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
+      this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
+
+      for (var e of this.res.mapEntrantesNames) {
+        this.pages[e] = 1;
+      }
+
+      for (var a of this.res.mapSortantesNames) {
+        this.pagesSortantes[a] = 1;
+      }
+
       if (this.res.mapEntrantes == null) {
         this.EnterEmpty = null;
       } else {

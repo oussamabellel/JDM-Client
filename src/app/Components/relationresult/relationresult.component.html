@@ -1,0 +1,53 @@
+<div class="accordion" id="accordionExample">
+
+    <div class="card mb-3" *ngFor="let relationName of mapNames; let j = index">
+        <div class="card-header" id="heading_{{j}}_{{bool}}">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse"
+                    attr.data-target="#collapse_{{j}}_{{bool}}" aria-expanded="false"
+                    attr.aria-controls="collapse_{{j}}_{{bool}}">
+                    Relation :
+                    {{relationName}} : ({{map[relationName].length}})
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapse_{{j}}_{{bool}}" class="collapse" attr.aria-labelledby="heading_{{j}}_{{bool}}"
+            data-parent="#accordionExample">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead class="table-primary" *ngIf="bool == false; else elseBlock">
+                        <tr>
+                            <th>Terme</th>
+                            <th>Poids</th>
+                        </tr>
+                    </thead>
+                    <ng-template #elseBlock>
+                        <thead class="table-success">
+                            <tr>
+                                <th>Terme</th>
+                                <th>Poids</th>
+                            </tr>
+                        </thead>
+                    </ng-template>
+                    <tbody>
+                        <tr
+                            *ngFor="let relIn of map[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
+                            <td (click)="NewSearch(relIn.noeud.nom)">
+                                <a href="#">{{relIn.noeud.nom}}
+                                </a>
+                            </td>
+                            <td>{{relIn.poids}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ngb-pagination [(page)]="pages[relationName]" [pageSize]="10"
+                    [collectionSize]="map[relationName].length" [maxSize]="10">
+                </ngb-pagination>
+            </div>
+        </div>
+
+    </div>
+
+</div>

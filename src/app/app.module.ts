@@ -8,6 +8,7 @@ import { ResultComponent } from './Components/result/result.component';
 import { JwPaginationComponent } from 'jw-angular-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { RelationresultComponent } from './Components/relationresult/relationresult.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     AppComponent,
     IndexComponent,
     ResultComponent,
-    JwPaginationComponent
+    JwPaginationComponent,
+    RelationresultComponent
   ],
   imports: [
     BrowserModule,

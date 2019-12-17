@@ -1,6 +1,7 @@
 import { Noeud } from './Noeud';
 import { Relation } from './Relation';
 import { NoeudType } from './NoeudType'
+import { lstat } from 'fs';
 
 export class Mot extends Noeud {
 
@@ -9,8 +10,13 @@ export class Mot extends Noeud {
     Noeuds: Noeud[];
     relationEntrantes: Relation[];
     relationSortantes: Relation[];
+
     mapEntrantes: Map<string, Relation[]>;
+    mapEntrantesNames: string[];
+
     mapSortantes: Map<string, Relation[]>;
+    mapSortantesNames: string[];
+
     rafDefinitions: string[];
 
     constructor(id: number,
@@ -25,16 +31,21 @@ export class Mot extends Noeud {
         relationSortantes: Relation[],
         mapEntrantes: Map<string, Relation[]>,
         mapSortantes: Map<string, Relation[]>,
-        rafDefinitions: string[]) {
+        rafDefinitions: string[]
+    ) {
         super(id, nom, type, poids, motFormate, relations);
+
         this.definition = definition;
-        this.Noeuds = Noeuds,
-            this.relationEntrantes = relationEntrantes;
+        this.Noeuds = Noeuds;
+        this.relationEntrantes = relationEntrantes;
         this.relationSortantes = relationSortantes;
         this.mapEntrantes = mapEntrantes;
         this.mapSortantes = mapSortantes;
         this.rafDefinitions = rafDefinitions;
-    }
 
+        this.mapEntrantesNames = [];
+        this.mapSortantesNames = [];
+
+    }
 
 }

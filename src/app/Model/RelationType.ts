@@ -1,9 +1,9 @@
 
 export class RelationType {
 
-    id : number;
+    id: number;
     name: string;
-    trgname : string;
-    rthelp : string;
-
+    trgname: string;
+    rthelp: string;
+    current_page: number = 1;
 }

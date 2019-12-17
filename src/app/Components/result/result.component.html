@@ -55,7 +55,7 @@
 
 	<hr>
 
-	<div *ngIf="res.definition?.length <= 0">
+	<div *ngIf="res.definition?.length <= 0 && res.rafDefinitions?.length <=0">
 		<div class="alert alert-primary">
 			<strong>Aucune définition trouvée !
 			</strong>
@@ -63,53 +63,6 @@
 	</div>
 
 	<div class="row">
-		<div class="col" *ngIf="no_relin == false">
-			<div *ngIf="EnterEmpty?.length == 0 || !EnterEmpty; else noEn">
-				<div class="alert alert-primary">
-					<strong>Aucune relations entrantes trouvées !
-					</strong>
-				</div>
-			</div>
-			<ng-template #noEn>
-				<h2>
-					Relations Entrantes
-				</h2>
-				<hr>
-				<div *ngFor="let relation of res.mapEntrantes | keyvalue; let i = index">
-
-					<h5>
-						Relation :
-						{{relation.key}}
-					</h5>
-
-					<table class="table table-hover">
-						<thead class="table-primary">
-							<tr>
-								<th>Terme</th>
-								<th>Poids</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let relIn of relation.value | slice: (i-1) * 10 : (i-1) * 10 + 10">
-								<td (click)="NewSearch(relIn.noeud.nom)">
-									<a href="#">{{relIn.noeud.nom}}
-									</a>
-								</td>
-								<td>{{relIn.poids}}</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<ngb-pagination [(page)]="i-i" [pageSize]="10" [collectionSize]="relation.value.length"
-						[maxSize]="10"></ngb-pagination>
-
-				</div>
-
-			</ng-template>
-
-		</div>
-
-		<hr>
 
 		<div class="col" *ngIf="no_relout == false">
 			<div *ngIf="SortEmpty?.length == 0 || !SortEmpty; else noSort">
@@ -119,45 +72,129 @@
 				</div>
 			</div>
 
-			<ng-template #noSort>
 
-				<h2>
-					Relations Sortantes
-				</h2>
+			<h2>
+				Relations Sortantes
+			</h2>
 
-				<hr>
+			<hr>
+			<app-relationresult [bool]="true" [mapNames]="res.mapSortantesNames" [map]="res.mapSortantes"
+				[pages]="pagesSortantes">
+			</app-relationresult>
+			<!--
+			<div class="accordion" id="saccordionExample">
 
-				<div *ngFor="let relationOut of res.mapSortantes | keyvalue; let j = index">
+				<div class="card mb-3" *ngFor="let relationName of res.mapSortantesNames; let j = index">
+					<div class="card-header" id="sheading_{{j}}">
+						<h2 class="mb-0">
+							<button class="btn btn-link" type="button" data-toggle="collapse"
+								attr.data-target="#scollapse_{{j}}" aria-expanded="false"
+								attr.aria-controls="scollapse_{{j}}">
+								Relation :
+								{{relationName}} : ({{res.mapSortantes[relationName].length}})
+							</button>
+						</h2>
+					</div>
 
-					<h5>
-						Relation :
-						{{relationOut.key}}
-					</h5>
+					<div id="scollapse_{{j}}" class="collapse" attr.aria-labelledby="sheading_{{j}}"
+						data-parent="#saccordionExample">
+						<div class="card-body">
+							<table class="table table-hover">
+								<thead class="table-success">
+									<tr>
+										<th>Terme</th>
+										<th>Poids</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										*ngFor="let relIn of res.mapSortantes[relationName] | slice: (pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10">
+										<td (click)="NewSearch(relIn.noeud.nom)">
+											<a href="#">{{relIn.noeud.nom}}
+											</a>
+										</td>
+										<td>{{relIn.poids}}</td>
+									</tr>
+								</tbody>
+							</table>
 
-					<table class="table table-hover">
-						<thead class="table-success">
-							<tr>
-								<th>Terme</th>
-								<th>Poids</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let relOut of relationOut.value | slice: (j-1) * 10 : (j-1) * 10 + 10">
-								<td (click)="NewSearch(relOut.noeud.nom)">
-									<a href="#">{{relOut.noeud.nom}}</a>
-								</td>
-								<td>{{relOut.poids}}</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<ngb-pagination [(page)]="j-j" [pageSize]="10" [collectionSize]="relationOut.value.length"
-						[maxSize]="10"></ngb-pagination>
-
+							<ngb-pagination [(page)]="pagesSortantes[relationName]" [pageSize]="10"
+								[collectionSize]="res.mapSortantes[relationName].length" [maxSize]="10">
+							</ngb-pagination>
+						</div>
+					</div>
 				</div>
 
-			</ng-template>
+			</div>
+		-->
+		</div>
 
+		<hr>
+
+		<div class="col" *ngIf="no_relin == false">
+			<div *ngIf="EnterEmpty === null || EnterEmpty.length == 0">
+				<div class="alert alert-primary">
+					<strong>Aucune relations entrantes trouvées !
+					</strong>
+				</div>
+			</div>
+			<div *ngIf="EnterEmpty !== null && EnterEmpty.length != 0">
+				<h2>
+					Relations Entrantes
+				</h2>
+				<hr>
+
+				<app-relationresult [bool]="false" [mapNames]="res.mapEntrantesNames" [map]="res.mapEntrantes"
+					[pages]="pages">
+				</app-relationresult>
+				<!--
+				<div class="accordion" id="accordionExample">
+
+					<div class="card mb-3" *ngFor="let relationName of res.mapEntrantesNames; let j = index">
+						<div class="card-header" id="heading_{{j}}">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse"
+									attr.data-target="#collapse_{{j}}" aria-expanded="false"
+									attr.aria-controls="collapse_{{j}}">
+									Relation :
+									{{relationName}} : ({{res.mapEntrantes[relationName].length}})
+								</button>
+							</h2>
+						</div>
+
+						<div id="collapse_{{j}}" class="collapse" attr.aria-labelledby="heading_{{j}}"
+							data-parent="#accordionExample">
+							<div class="card-body">
+								<table class="table table-hover">
+									<thead class="table-primary">
+										<tr>
+											<th>Terme</th>
+											<th>Poids</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											*ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
+											<td (click)="NewSearch(relIn.noeud.nom)">
+												<a href="#">{{relIn.noeud.nom}}
+												</a>
+											</td>
+											<td>{{relIn.poids}}</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<ngb-pagination [(page)]="pages[relationName]" [pageSize]="10"
+									[collectionSize]="res.mapEntrantes[relationName].length" [maxSize]="10">
+								</ngb-pagination>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			-->
+
+			</div>
 		</div>
 
 	</div>
