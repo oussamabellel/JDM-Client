@@ -50,7 +50,6 @@ export class ResultComponent implements OnInit {
 
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
 
-
       this.res = res;
 
       if (this.res.mapEntrantes == null && this.res.mapEntrantes == undefined) {
@@ -87,15 +86,23 @@ export class ResultComponent implements OnInit {
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
 
       this.res = res;
-      if (this.res.mapEntrantes == null) {
+      if (this.res.mapEntrantes == null && this.res.mapEntrantes == undefined) {
         this.EnterEmpty = null;
       } else {
+        this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
+        for (var e of this.res.mapEntrantesNames) {
+          this.pages[e] = 1;
+        }
         this.EnterEmpty = Object.keys(this.res.mapEntrantes);
       }
 
-      if (this.res.mapSortantes == null) {
+      if (this.res.mapSortantes == null && this.res.mapSortantes == undefined) {
         this.SortEmpty = null;
       } else {
+        this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
+        for (var a of this.res.mapSortantesNames) {
+          this.pagesSortantes[a] = 1;
+        }
         this.SortEmpty = Object.keys(this.res.mapSortantes);
       }
 
