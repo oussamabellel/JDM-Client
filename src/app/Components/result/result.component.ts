@@ -5,6 +5,8 @@ import { Mot } from 'src/app/Model/Mot';
 import { Relation } from 'src/app/Model/Relation';
 import { Key } from 'protractor';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-result',
@@ -19,10 +21,6 @@ export class ResultComponent implements OnInit {
   @Input() relation: string = "";
 
   res: Mot;
-  page = 1;
-  pageSize = 10;
-  page2 = 1;
-  pageSize2 = 10;
 
   pages = {};
   pagesSortantes = {};
@@ -31,7 +29,6 @@ export class ResultComponent implements OnInit {
   EnterEmpty: any = null;
 
   @Output() messageEvent = new EventEmitter<string>();
-
 
   constructor(private httpClient: HttpClient, private apiWord: ServiceService, private ngxLoader: NgxUiLoaderService) { }
 
@@ -56,30 +53,27 @@ export class ResultComponent implements OnInit {
 
       this.res = res;
 
-      this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
-      this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
-
-      for (var e of this.res.mapEntrantesNames) {
-        this.pages[e] = 1;
-      }
-
-      for (var a of this.res.mapSortantesNames) {
-        this.pagesSortantes[a] = 1;
-      }
-
-      if (this.res.mapEntrantes == null) {
+      if (this.res.mapEntrantes == null && this.res.mapEntrantes == undefined) {
         this.EnterEmpty = null;
       } else {
+        this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
+        for (var e of this.res.mapEntrantesNames) {
+          this.pages[e] = 1;
+        }
         this.EnterEmpty = Object.keys(this.res.mapEntrantes);
       }
-
-      if (this.res.mapSortantes == null) {
+      if (this.res.mapSortantes == null && this.res.mapSortantes == undefined) {
         this.SortEmpty = null;
       } else {
+        this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
+        for (var a of this.res.mapSortantesNames) {
+          this.pagesSortantes[a] = 1;
+        }
         this.SortEmpty = Object.keys(this.res.mapSortantes);
       }
 
       this.ngxLoader.stopLoader('loader-01');
+
 
     })
 
@@ -91,7 +85,6 @@ export class ResultComponent implements OnInit {
     this.ngxLoader.startLoader('loader-01'); // start non-master loader
     this.sendMessage(mot);
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
-
 
       this.res = res;
       if (this.res.mapEntrantes == null) {

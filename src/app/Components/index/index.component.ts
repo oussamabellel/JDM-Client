@@ -23,6 +23,7 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.no_relout = false;
     this.no_relin = false;
+
   }
 
   onSubmit(event) {

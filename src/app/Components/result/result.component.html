@@ -1,26 +1,19 @@
 <div style="position: relative">
 	<ngx-ui-loader [loaderId]="'loader-01'"> </ngx-ui-loader>
 </div>
+
 <div *ngIf="res">
 	<div class="text-center" *ngIf="res.id != 0">
 		<p>
-			<b>
-				le terme
-			</b>
-			:
+			<b> le terme </b> :
 			{{ message }}</p>
 		<p>
-			<b>id :
-				{{ res.id }}
-			</b>
+			<b>id : {{ res.id }} </b>
 		</p>
 		<p>
-			<b>
-				poids
-			</b>
-			:
+			<b> poids </b> :
 			{{res.poids}}</p>
-		<!-- <p> <b> type </b> : <b> id </b> : {{res.type.id}}, <b>nom </b>: {{res.type.nom}} </p> -->
+
 	</div>
 
 
@@ -36,8 +29,6 @@
 		<div class="col-xs-3" *ngIf="res.rafDefinitions?.length > 0">
 			<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement
 				sémantique detected !</button>
-
-
 		</div>
 	</div>
 
@@ -71,58 +62,51 @@
 					</strong>
 				</div>
 			</div>
+			<div *ngIf="SortEmpty !== null && SortEmpty.length != 0">
+				<h2>Relations Sortantes </h2>
+				<hr>
+				<div class="accordion" id="accordionExamples">
 
+					<div class="card mb-3" *ngFor="let relationName of res.mapSortantesNames; let j = index">
+						<div class="card-header" id="sheading_{{j}}">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse"
+									attr.data-target="#scollapse_{{j}}" aria-expanded="false"
+									attr.aria-controls="scollapse_{{j}}">
+									Relation :
+									{{relationName}} : ({{res.mapSortantes[relationName].length}})
+								</button>
+							</h2>
+						</div>
 
-			<h2>
-				Relations Sortantes
-			</h2>
-
-			<hr>
-
-			<div class="accordion" id="accordionExamples">
-
-				<div class="card mb-3" *ngFor="let relationName of res.mapSortantesNames; let j = index">
-					<div class="card-header" id="sheading_{{j}}">
-						<h2 class="mb-0">
-							<button class="btn btn-link" type="button" data-toggle="collapse"
-								attr.data-target="#scollapse_{{j}}" aria-expanded="false"
-								attr.aria-controls="scollapse_{{j}}">
-								Relation :
-								{{relationName}} : ({{res.mapSortantes[relationName].length}})
-							</button>
-						</h2>
-					</div>
-
-					<div id="scollapse_{{j}}" class="collapse" attr.aria-labelledby="sheading_{{j}}"
-						data-parent="#accordionExamples">
-						<div class="card-body">
-							<table class="table table-hover">
-								<thead class="table-success">
-									<tr>
-										<th>Terme</th>
-										<th>Poids</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr
-										*ngFor="let relIn of res.mapSortantes[relationName] | slice: (pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10">
-										<td (click)="NewSearch(relIn.noeud.nom)">
-											<a href="#">{{relIn.noeud.nom}}
-											</a>
-										</td>
-										<td>{{relIn.poids}}</td>
-									</tr>
-								</tbody>
-							</table>
-
-							<ngb-pagination [(page)]="pagesSortantes[relationName]" [pageSize]="10"
-								[collectionSize]="res.mapSortantes[relationName].length" [maxSize]="10">
-							</ngb-pagination>
+						<div id="scollapse_{{j}}" class="collapse" attr.aria-labelledby="sheading_{{j}}"
+							data-parent="#accordionExamples">
+							<div class="card-body">
+								<table class="table table-hover">
+									<thead class="table-success">
+										<tr>
+											<th>Terme</th>
+											<th>Poids</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											*ngFor="let relIn of res.mapSortantes[relationName] | slice: (pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10">
+											<td (click)="NewSearch(relIn.noeud.nom)">
+												<a href="#">{{relIn.noeud.nom}}
+												</a>
+											</td>
+											<td>{{relIn.poids}}</td>
+										</tr>
+									</tbody>
+								</table>
+								<ngb-pagination [(page)]="pagesSortantes[relationName]" [pageSize]="10"
+									[collectionSize]="res.mapSortantes[relationName].length" [maxSize]="10">
+								</ngb-pagination>
+							</div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
 
 		</div>
@@ -137,26 +121,21 @@
 				</div>
 			</div>
 			<div *ngIf="EnterEmpty !== null && EnterEmpty.length != 0">
-				<h2>
-					Relations Entrantes
-				</h2>
+				<h2> Relations Entrantes</h2>
 
 				<hr>
 
 				<div class="accordion" id="accordionExample">
-
 					<div class="card mb-3" *ngFor="let relationName of res.mapEntrantesNames; let j = index">
 						<div class="card-header" id="heading_{{j}}">
 							<h2 class="mb-0">
 								<button class="btn btn-link" type="button" data-toggle="collapse"
 									attr.data-target="#collapse_{{j}}" aria-expanded="false"
 									attr.aria-controls="collapse_{{j}}">
-									Relation :
-									{{relationName}} : ({{res.mapEntrantes[relationName].length}})
+									Relation : {{relationName}} : ({{res.mapEntrantes[relationName].length}})
 								</button>
 							</h2>
 						</div>
-
 						<div id="collapse_{{j}}" class="collapse" attr.aria-labelledby="heading_{{j}}"
 							data-parent="#accordionExample">
 							<div class="card-body">
@@ -171,8 +150,7 @@
 										<tr
 											*ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
 											<td (click)="NewSearch(relIn.noeud.nom)">
-												<a href="#">{{relIn.noeud.nom}}
-												</a>
+												<a href="#">{{relIn.noeud.nom}}</a>
 											</td>
 											<td>{{relIn.poids}}</td>
 										</tr>
@@ -184,12 +162,8 @@
 								</ngb-pagination>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
-
 			</div>
 		</div>
-
 	</div>
