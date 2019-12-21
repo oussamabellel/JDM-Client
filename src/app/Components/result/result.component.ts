@@ -15,6 +15,12 @@ import * as $ from 'jquery';
 })
 export class ResultComponent implements OnInit {
 
+  order: string = 'poids';
+  order_entrantes: string = 'poids';
+  reverse: boolean = true;
+  reverse_entrantes: boolean = true;
+
+
   @Input() message: string;
   @Input() no_relout: boolean;
   @Input() no_relin: boolean;
@@ -73,15 +79,31 @@ export class ResultComponent implements OnInit {
 
       this.ngxLoader.stopLoader('loader-01');
 
-
     })
 
 
   }
 
+  setOrder(value: string, is_out: any) {
+
+    if (is_out) {
+      if (this.order === value) {
+        this.reverse = !this.reverse;
+      }
+      this.order = value;
+    } else {
+      if (this.order_entrantes === value) {
+        this.reverse_entrantes = !this.reverse_entrantes;
+      }
+      this.order_entrantes = value;
+    }
+
+  }
+
   NewSearch(mot: string) {
+
     this.message = mot;
-    this.ngxLoader.startLoader('loader-01'); // start non-master loader
+    this.ngxLoader.startLoader('loader-01');
     this.sendMessage(mot);
     this.apiWord.getMot(this.message, this.relation).subscribe((res: Mot) => {
 
@@ -111,4 +133,5 @@ export class ResultComponent implements OnInit {
     })
 
   }
+
 }

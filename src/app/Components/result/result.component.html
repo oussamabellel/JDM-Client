@@ -17,8 +17,8 @@
 	</div>
 
 
-	<div class="row">
-		<div class="col-xs-3 mb-1">
+	<div class="row" id="myGroup">
+		<div class="col-xs-3 mr-1 ml-2 mb-1">
 			<div *ngIf="res.definition?.length > 0">
 				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Show
 					definitions</button>
@@ -26,22 +26,24 @@
 			</div>
 		</div>
 
-		<div class="col-xs-3" *ngIf="res.rafDefinitions?.length > 0">
+		<div class="col-xs-3 mr-1 ml-2 mb-1" *ngIf="res.rafDefinitions?.length > 0">
 			<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement
 				sémantique detected !</button>
 		</div>
-	</div>
 
-	<div id="demo2" class="collapse mt-2">
-		<ul class="list-group" *ngFor="let raf_def of res.rafDefinitions">
-			<li class="list-group-item">{{raf_def}}</li>
-		</ul>
-	</div>
+		<div class="accordion-group">
+			<div id="demo2" data-parent="#myGroup" class="collapse indent mt-2">
+				<ul class="list-group" *ngFor="let raf_def of res.rafDefinitions">
+					<li class="list-group-item">{{raf_def}}</li>
+				</ul>
+			</div>
 
-	<div id="demo" class="collapse mt-2">
-		<ul class="list-group" *ngFor="let def of res.definition">
-			<li class="list-group-item">{{def}}</li>
-		</ul>
+			<div id="demo" data-parent="#myGroup" class="collapse indent mt-2">
+				<ul class="list-group list-group-hover list-group-striped" *ngFor="let def of res.definition">
+					<li class="list-group-item">{{def}}</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 
 	<hr>
@@ -73,8 +75,7 @@
 								<button class="btn btn-link" type="button" data-toggle="collapse"
 									attr.data-target="#scollapse_{{j}}" aria-expanded="false"
 									attr.aria-controls="scollapse_{{j}}">
-									Relation :
-									{{relationName}} : ({{res.mapSortantes[relationName].length}})
+									Relation : {{relationName}} : ({{res.mapSortantes[relationName].length}})
 								</button>
 							</h2>
 						</div>
@@ -85,13 +86,18 @@
 								<table class="table table-hover">
 									<thead class="table-success">
 										<tr>
-											<th>Terme</th>
-											<th>Poids</th>
+											<th (click)="setOrder('noeud.nom',true)">
+												Terme <span *ngIf="reverse && order === 'noeud.nom'">▼</span><span
+													*ngIf="!reverse && order === 'noeud.nom'">▲</span></th>
+											<th (click)="setOrder('poids',true)">
+												Poids <span *ngIf="reverse && order === 'poids'">▼</span><span
+													*ngIf="!reverse && order === 'poids'">▲</span></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr
-											*ngFor="let relIn of res.mapSortantes[relationName] | slice: (pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10">
+										<tr *ngFor="let relIn of res.mapSortantes[relationName] | orderBy: order:reverse | slice:
+													(pagesSortantes[relationName]-1) * 10 :
+													(pagesSortantes[relationName]-1) * 10 + 10">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}
 												</a>
@@ -142,13 +148,21 @@
 								<table class="table table-hover">
 									<thead class="table-primary">
 										<tr>
-											<th>Terme</th>
-											<th>Poids</th>
+											<th (click)="setOrder('noeud.nom',false)">
+												Terme <span
+													*ngIf="reverse_entrantes && order_entrantes === 'noeud.nom'">▼</span><span
+													*ngIf="!reverse_entrantes && order_entrantes === 'noeud.nom'">▲</span>
+											</th>
+											<th (click)="setOrder('poids',false)">
+												Poids <span
+													*ngIf="reverse_entrantes && order_entrantes === 'poids'">▼</span><span
+													*ngIf="!reverse_entrantes && order_entrantes === 'poids'">▲</span>
+											</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr
-											*ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
+											*ngFor="let relIn of res.mapEntrantes[relationName] | orderBy: order_entrantes:reverse_entrantes | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}</a>
 											</td>

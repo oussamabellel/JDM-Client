@@ -8,6 +8,7 @@ import { ResultComponent } from './Components/result/result.component';
 import { JwPaginationComponent } from 'jw-angular-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { OrderModule } from 'ngx-order-pipe';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    NgxUiLoaderModule
+    NgxUiLoaderModule,
+    OrderModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
