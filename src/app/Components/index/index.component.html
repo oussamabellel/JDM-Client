@@ -10,22 +10,20 @@
 
 	<label class="mr-sm-2">Mot à rechercher
 	</label>
-	<input type="text" id="mot" class="form-control mb-2 mr-sm-2 ml-2 mr-2" />
+	<input type="text" id="mot" class="form-control mb-2 mr-sm-2 ml-2 mr-2"/>
 	<label class="mr-sm-2">Identifiant relation
 	</label>
-	<input type="text" id="id_relation" class="form-control mb-2 mr-sm-2 ml-2 mr-2" />
+	<input type="text" id="id_relation" class="form-control mb-2 mr-sm-2 ml-2 mr-2"/>
 
 	<div class="form-check mb-2 mr-sm-2">
 		<label class="form-check-label ml-2 mr-2">
-			<input id="no_relin" name="no_relin" type="checkbox" class="form-check-input" value=""
-				(change)="noRelIn($event)">
+			<input id="no_relin" name="no_relin" type="checkbox" class="form-check-input" value="" (change)="noRelIn($event)">
 			Pas de relations Entrantes
 		</label>
 	</div>
 	<div class="form-check mb-2 mr-sm-2">
 		<label class="form-check-label ml-2 mr-2">
-			<input id="no_relout" name="no_relout" type="checkbox" class="form-check-input" value=""
-				(change)="noRelOut($event)">
+			<input id="no_relout" name="no_relout" type="checkbox" class="form-check-input" value="" (change)="noRelOut($event)">
 			Pas de relations Sortantes
 		</label>
 	</div>
@@ -36,6 +34,5 @@
 </form>
 
 <div class="container">
-	<app-result (messageEvent)="receiveMessage($event)" [message]="message" [no_relout]="no_relout"
-		[relation]="relation" [no_relin]="no_relin" *ngIf="message"></app-result>
+	<app-result (messageEvent)="receiveMessage($event)" [message]="message" [no_relout]="no_relout" [relation]="relation" [no_relin]="no_relin" *ngIf="message"></app-result>
 </div>

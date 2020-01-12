@@ -9,6 +9,8 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { OrderModule } from 'ngx-order-pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,7 +26,10 @@ import { OrderModule } from 'ngx-order-pipe';
     HttpClientModule,
     NgbModule,
     NgxUiLoaderModule,
-    OrderModule
+    OrderModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

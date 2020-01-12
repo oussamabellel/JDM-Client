@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './Components/index/index.component';
+import { ResultComponent } from './Components/result/result.component';
 
 
 const routes: Routes = [
-  { path: '', component: IndexComponent }
+  {
+    path: '', component: IndexComponent
+  }
 ];
 
 @NgModule({
