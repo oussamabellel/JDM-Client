@@ -29,6 +29,12 @@ export class ResultComponent implements OnInit {
 
   res: Mot;
 
+  page = 1;
+  pageSize = 4;
+
+  pageref = 1;
+  pageSizeref = 4;
+
   pages = {};
   pagesSortantes = {};
 

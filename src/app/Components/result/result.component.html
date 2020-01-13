@@ -3,27 +3,12 @@
 </div>
 
 <div *ngIf="res">
+
 	<div class="text-center" *ngIf="res.id != 0">
-		<p>
-			<b>
-				le terme
-			</b>
-			:
-			{{ message }}</p>
-		<p>
-			<b>id :
-				{{ res.id }}
-			</b>
-		</p>
-		<p>
-			<b>
-				poids
-			</b>
-			:
-			{{res.poids}}</p>
-
+		<p> <b> le terme </b> : {{ message }}</p>
+		<p> <b>id : {{ res.id }} </b> </p>
+		<p> <b> poids </b> : {{res.poids}}</p>
 	</div>
-
 
 	<div class="row" id="myGroup">
 		<div class="col-xs-3 mr-1 ml-2 mb-1">
@@ -36,20 +21,27 @@
 
 		<div class="col-xs-3 mr-1 ml-2 mb-1" *ngIf="res.rafDefinitions?.length > 0">
 			<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement
-				sémantique detected !</button>
+				sémantique détécté </button>
 		</div>
 
 		<div class="accordion-group">
 			<div id="demo2" data-parent="#myGroup" class="collapse indent mt-2">
-				<ul class="list-group" *ngFor="let raf_def of res.rafDefinitions">
-					<li class="list-group-item">{{raf_def}}</li>
+				<ul class="list-group"
+					*ngFor="let raf_def of res.rafDefinitions | slice: (pageref-1) * pageSizeref : (pageref-1) * pageSizeref + pageSizeref">
+					<li class=" list-group-item">{{raf_def}}</li>
 				</ul>
+				<ngb-pagination [(page)]="pageref" [pageSize]="pageSizeref"
+					[collectionSize]="res.rafDefinitions.length">
+				</ngb-pagination>
 			</div>
 
 			<div id="demo" data-parent="#myGroup" class="collapse indent mt-2">
-				<ul class="list-group list-group-hover list-group-striped" *ngFor="let def of res.definition">
+				<ul class="list-group list-group-hover list-group-striped"
+					*ngFor="let def of res.definition | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
 					<li class="list-group-item">{{def}}</li>
 				</ul>
+				<ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="res.definition.length">
+				</ngb-pagination>
 			</div>
 		</div>
 	</div>
@@ -111,7 +103,7 @@
 									</thead>
 									<tbody>
 										<tr
-											*ngFor="let relIn of res.mapSortantes[relationName] | orderBy: order:reverse | slice:(pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10">
+											*ngFor="let relIn of res.mapSortantes[relationName] | slice:(pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10 | orderBy: order:reverse">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}
 												</a>
@@ -146,7 +138,6 @@
 			<div *ngIf="EnterEmpty !== null && EnterEmpty.length != 0">
 				<h2>
 					Relations Entrantes</h2>
-
 				<hr>
 
 				<div class="accordion" id="accordionExample">
@@ -184,7 +175,7 @@
 									</thead>
 									<tbody>
 										<tr
-											*ngFor="let relIn of res.mapEntrantes[relationName] | orderBy: order_entrantes:reverse_entrantes | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10">
+											*ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10 | orderBy: order_entrantes:reverse_entrantes">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}</a>
 											</td>
@@ -213,5 +204,4 @@
 	<hr>
 	<h4> Historique </h4>
 	<h6 *ngFor="let hs of history" style="display:inline;" (click)="NewSearch(hs)"><a href="#">{{hs}} </a> / </h6>
-
 </div>
