@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="accordion-group">
-			<div id="demo2" data-parent="#myGroup" class="collapse indent mt-2">
+			<div *ngIf="res.rafDefinitions?.length > 0" id="demo2" data-parent="#myGroup" class="collapse indent mt-2">
 				<ul class="list-group"
 					*ngFor="let raf_def of res.rafDefinitions | slice: (pageref-1) * pageSizeref : (pageref-1) * pageSizeref + pageSizeref">
 					<li class=" list-group-item">{{raf_def}}</li>
@@ -35,7 +35,7 @@
 				</ngb-pagination>
 			</div>
 
-			<div id="demo" data-parent="#myGroup" class="collapse indent mt-2">
+			<div *ngIf="res.definition?.length > 0" id="demo" data-parent="#myGroup" class="collapse indent mt-2">
 				<ul class="list-group list-group-hover list-group-striped"
 					*ngFor="let def of res.definition | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
 					<li class="list-group-item">{{def}}</li>
