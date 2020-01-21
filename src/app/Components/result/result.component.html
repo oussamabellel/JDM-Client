@@ -4,44 +4,49 @@
 
 <div *ngIf="res">
 
+	<hr>
 	<div class="text-center" *ngIf="res.id != 0">
-		<p> <b> le terme </b> : {{ message }}</p>
-		<p> <b>id : {{ res.id }} </b> </p>
-		<p> <b> poids </b> : {{res.poids}}</p>
+		<p>
+			<b>
+				le terme
+			</b>:{{ message }}</p>
+		<p>
+			<b>id :
+				{{ res.id }}
+			</b>
+		</p>
+		<p>
+			<b>
+				poid
+			</b>:
+			{{res.poids}}
+		</p>
 	</div>
 
 	<div class="row" id="myGroup">
 		<div class="col-xs-3 mr-1 ml-2 mb-1">
 			<div *ngIf="res.definition?.length > 0">
-				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Show
-					definitions</button>
-
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Show definitions</button>
 			</div>
 		</div>
 
 		<div class="col-xs-3 mr-1 ml-2 mb-1" *ngIf="res.rafDefinitions?.length > 0">
-			<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement
-				sémantique détécté </button>
+			<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement sémantique détécté</button>
 		</div>
 
 		<div class="accordion-group">
 			<div *ngIf="res.rafDefinitions?.length > 0" id="demo2" data-parent="#myGroup" class="collapse indent mt-2">
-				<ul class="list-group"
-					*ngFor="let raf_def of res.rafDefinitions | slice: (pageref-1) * pageSizeref : (pageref-1) * pageSizeref + pageSizeref">
+				<ul class="list-group" *ngFor="let raf_def of res.rafDefinitions | slice: (pageref-1) * pageSizeref : (pageref-1) * pageSizeref + pageSizeref">
 					<li class=" list-group-item">{{raf_def}}</li>
 				</ul>
-				<ngb-pagination [(page)]="pageref" [pageSize]="pageSizeref"
-					[collectionSize]="res.rafDefinitions.length">
-				</ngb-pagination>
+				<ngb-pagination [(page)]="pageref" [pageSize]="pageSizeref" [collectionSize]="res.rafDefinitions.length"></ngb-pagination>
 			</div>
 
 			<div *ngIf="res.definition?.length > 0" id="demo" data-parent="#myGroup" class="collapse indent mt-2">
-				<ul class="list-group list-group-hover list-group-striped"
-					*ngFor="let def of res.definition | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+				<ul class="list-group list-group-hover list-group-striped" *ngFor="let def of res.definition | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
 					<li class="list-group-item">{{def}}</li>
 				</ul>
-				<ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="res.definition.length">
-				</ngb-pagination>
+				<ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="res.definition.length"></ngb-pagination>
 			</div>
 		</div>
 	</div>
@@ -73,9 +78,7 @@
 					<div class="card mb-3" *ngFor="let relationName of res.mapSortantesNames; let j = index">
 						<div class="card-header" id="sheading_{{j}}">
 							<h2 class="mb-0">
-								<button class="btn btn-link" type="button" data-toggle="collapse"
-									attr.data-target="#scollapse_{{j}}" aria-expanded="false"
-									attr.aria-controls="scollapse_{{j}}">
+								<button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#scollapse_{{j}}" aria-expanded="false" attr.aria-controls="scollapse_{{j}}">
 									Relation :
 									{{relationName}}
 									: ({{res.mapSortantes[relationName].length}})
@@ -83,8 +86,7 @@
 							</h2>
 						</div>
 
-						<div id="scollapse_{{j}}" class="collapse" attr.aria-labelledby="sheading_{{j}}"
-							data-parent="#accordionExamples">
+						<div id="scollapse_{{j}}" class="collapse" attr.aria-labelledby="sheading_{{j}}" data-parent="#accordionExamples">
 							<div class="card-body">
 								<table class="table table-hover">
 									<thead class="table-success">
@@ -102,8 +104,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr
-											*ngFor="let relIn of res.mapSortantes[relationName] | slice:(pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10 | orderBy: order:reverse">
+										<tr *ngFor="let relIn of res.mapSortantes[relationName] | slice:(pagesSortantes[relationName]-1) * 10 : (pagesSortantes[relationName]-1) * 10 + 10 | orderBy: order:reverse">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}
 												</a>
@@ -115,9 +116,7 @@
 										</tr>
 									</tbody>
 								</table>
-								<ngb-pagination [(page)]="pagesSortantes[relationName]" [pageSize]="10"
-									[collectionSize]="res.mapSortantes[relationName].length" [maxSize]="10">
-								</ngb-pagination>
+								<ngb-pagination [(page)]="pagesSortantes[relationName]" [pageSize]="10" [collectionSize]="res.mapSortantes[relationName].length" [maxSize]="10"></ngb-pagination>
 							</div>
 						</div>
 					</div>
@@ -144,27 +143,22 @@
 					<div class="card mb-3" *ngFor="let relationName of res.mapEntrantesNames; let j = index">
 						<div class="card-header" id="heading_{{j}}">
 							<h2 class="mb-0">
-								<button class="btn btn-link" type="button" data-toggle="collapse"
-									attr.data-target="#collapse_{{j}}" aria-expanded="false"
-									attr.aria-controls="collapse_{{j}}">
+								<button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#collapse_{{j}}" aria-expanded="false" attr.aria-controls="collapse_{{j}}">
 									Relation :
 									{{relationName}}
 									: ({{res.mapEntrantes[relationName].length}})
 								</button>
 							</h2>
 						</div>
-						<div id="collapse_{{j}}" class="collapse" attr.aria-labelledby="heading_{{j}}"
-							data-parent="#accordionExample">
+						<div id="collapse_{{j}}" class="collapse" attr.aria-labelledby="heading_{{j}}" data-parent="#accordionExample">
 							<div class="card-body">
 								<table class="table table-hover">
 									<thead class="table-primary">
 										<tr>
 											<th (click)="setOrder('noeud.nom',false)">
 												Terme
-												<span
-													*ngIf="reverse_entrantes && order_entrantes === 'noeud.nom'">▼</span>
-												<span
-													*ngIf="!reverse_entrantes && order_entrantes === 'noeud.nom'">▲</span>
+												<span *ngIf="reverse_entrantes && order_entrantes === 'noeud.nom'">▼</span>
+												<span *ngIf="!reverse_entrantes && order_entrantes === 'noeud.nom'">▲</span>
 											</th>
 											<th (click)="setOrder('poids',false)">
 												Poids
@@ -174,8 +168,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr
-											*ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10 | orderBy: order_entrantes:reverse_entrantes">
+										<tr *ngFor="let relIn of res.mapEntrantes[relationName] | slice: (pages[relationName]-1) * 10 : (pages[relationName]-1) * 10 + 10 | orderBy: order_entrantes:reverse_entrantes">
 											<td (click)="NewSearch(relIn.noeud.nom)">
 												<a href="#">{{relIn.noeud.nom}}</a>
 											</td>
@@ -186,9 +179,7 @@
 									</tbody>
 								</table>
 
-								<ngb-pagination [(page)]="pages[relationName]" [pageSize]="10"
-									[collectionSize]="res.mapEntrantes[relationName].length" [maxSize]="10">
-								</ngb-pagination>
+								<ngb-pagination [(page)]="pages[relationName]" [pageSize]="10" [collectionSize]="res.mapEntrantes[relationName].length" [maxSize]="10"></ngb-pagination>
 							</div>
 						</div>
 					</div>
@@ -199,9 +190,14 @@
 </div>
 
 
-
 <div *ngIf="history.length > 1" class="col-md-12">
 	<hr>
-	<h4> Historique </h4>
-	<h6 *ngFor="let hs of history" style="display:inline;" (click)="NewSearch(hs)"><a href="#">{{hs}} </a> / </h6>
+	<h4>
+		Historique
+	</h4>
+	<h6 *ngFor="let hs of history" style="display:inline;" (click)="NewSearch(hs)">
+		<a href="#">{{hs}}
+		</a>
+		/
+	</h6>
 </div>
