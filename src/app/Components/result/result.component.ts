@@ -5,7 +5,7 @@ import { Mot } from 'src/app/Model/Mot';
 import { Relation } from 'src/app/Model/Relation';
 import { Key } from 'protractor';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import * as $ from 'jquery';
+declare var $: any;
 
 
 @Component({
@@ -41,6 +41,8 @@ export class ResultComponent implements OnInit {
   SortEmpty: any;
   EnterEmpty: any = null;
 
+  e: any;
+
   @Output() messageEvent = new EventEmitter<string>();
 
   constructor(private httpClient: HttpClient, private apiWord: ServiceService, private ngxLoader: NgxUiLoaderService) { }
@@ -53,17 +55,57 @@ export class ResultComponent implements OnInit {
 
   }
 
+
+
+  oncollapse(e: any) {
+
+    $("#accordionExamples").on("show.bs.collapse", e => {
+      $(e.target)
+        .prev()
+        .find("i:last-child")
+        .removeClass("fa-plus")
+        .addClass("fa-minus")
+    });
+
+    $("#accordionExamples").on("hide.bs.collapse", e => {
+      $(e.target)
+        .prev()
+        .find("i:last-child")
+        .removeClass("fa-minus")
+        .addClass("fa-plus")
+    });
+  }
+
+  oncollapse2(e: any) {
+    $("#accordionExamples2").on("show.bs.collapse", e => {
+      $(e.target)
+        .prev()
+        .find("i:last-child")
+        .removeClass("fa-plus")
+        .addClass("fa-minus")
+    });
+
+    $("#accordionExamples2").on("hide.bs.collapse", e => {
+      $(e.target)
+        .prev()
+        .find("i:last-child")
+        .removeClass("fa-minus")
+        .addClass("fa-plus")
+    });
+  }
+
   Search(message, relation) {
 
-    this.history.unshift(this.message);
-    localStorage.setItem('history', JSON.stringify(this.history));
+    if (!this.history.some(x => x === message)) {
+      this.history.unshift(this.message);
+      localStorage.setItem('history', JSON.stringify(this.history));
+    }
 
     this.ngxLoader.startLoader('loader-01');
 
     this.apiWord.getMot(message, relation).subscribe((res: Mot) => {
 
       this.res = res;
-
       if (this.res.mapEntrantes == null && this.res.mapEntrantes == undefined) {
         this.EnterEmpty = null;
       } else {
@@ -88,11 +130,15 @@ export class ResultComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['message'] !== undefined)
-      this.message = changes['message'].currentValue;
+    if (changes['message'] !== undefined) {
 
-    if (changes['relation'] !== undefined)
+      this.message = changes['message'].currentValue;
+    }
+
+
+    if (changes['relation'] !== undefined) {
       this.relation = changes['relation'].currentValue;
+    }
 
     this.Search(this.message, this.relation);
 
@@ -116,6 +162,8 @@ export class ResultComponent implements OnInit {
 
   NewSearch(mot: string) {
     this.message = mot;
+    $('.collapse').removeClass("show");
+    $('.fa-stack-1x.fa-inverse').removeClass("fa-minus").addClass("fa-plus");
     this.sendMessage(mot);
   }
 
