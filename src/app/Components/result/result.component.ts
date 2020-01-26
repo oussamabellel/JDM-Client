@@ -55,8 +55,6 @@ export class ResultComponent implements OnInit {
 
   }
 
-
-
   oncollapse(e: any) {
 
     $("#accordionExamples").on("show.bs.collapse", e => {
@@ -133,14 +131,14 @@ export class ResultComponent implements OnInit {
     if (changes['message'] !== undefined) {
 
       this.message = changes['message'].currentValue;
+      this.Search(this.message, this.relation);
     }
 
 
     if (changes['relation'] !== undefined) {
       this.relation = changes['relation'].currentValue;
+      this.Search(this.message, this.relation);
     }
-
-    this.Search(this.message, this.relation);
 
   }
 
