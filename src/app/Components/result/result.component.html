@@ -9,7 +9,8 @@
 		<p>
 			<b>
 				le terme
-			</b>:{{ message }}</p>
+			</b>:
+			{{ message }}</p>
 		<p>
 			<b>id :
 				{{ res.id }}
@@ -32,7 +33,7 @@
 			</div>
 
 			<div class="col-xs-3 mr-1 ml-2 mb-1" *ngIf="res.rafDefinitions?.length > 0">
-				<button type="button" class="btn btn-primary ml-1" data-toggle="collapse" data-target="#demo2">Raffinement sémantique détécté</button>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2">Raffinement sémantique détécté</button>
 			</div>
 
 		</div>
@@ -79,7 +80,7 @@
 				</div>
 			</div>
 			<div *ngIf="SortEmpty !== null && SortEmpty.length != 0">
-				<h2>Relations Sortantes
+				<h2 class="justify-content-center">Relations Sortantes
 				</h2>
 				<hr>
 				<div class="myaccordion" (click)="oncollapse(event)" id="accordionExamples">
@@ -141,15 +142,16 @@
 
 		<hr>
 
+
 		<div class="col" *ngIf="no_relin == false">
-			<div *ngIf="EnterEmpty === null || EnterEmpty.length == 0">
+			<div *ngIf="EnterEmpty?.length == 0 || !EnterEmpty; else noSort">
 				<div class="alert alert-primary">
 					<strong>Aucune relations entrantes trouvées !
 					</strong>
 				</div>
 			</div>
 			<div *ngIf="EnterEmpty !== null && EnterEmpty.length != 0">
-				<h2>
+				<h2 class="justify-content-center">
 					Relations Entrantes</h2>
 				<hr>
 
@@ -206,6 +208,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="errorserver" class="alert alert-danger invisible">
+	<strong>Erreur Server
+	</strong>
 </div>
 
 

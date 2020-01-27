@@ -102,40 +102,48 @@ export class ResultComponent implements OnInit {
     this.ngxLoader.startLoader('loader-01');
 
     this.apiWord.getMot(message, relation).subscribe((res: Mot) => {
+      if (res !== null) {
+        this.res = res;
 
-      this.res = res;
-      if (this.res.mapEntrantes == null && this.res.mapEntrantes == undefined) {
-        this.EnterEmpty = null;
-      } else {
-        this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
-        for (var e of this.res.mapEntrantesNames) {
-          this.pages[e] = 1;
+        if (this.res.mapEntrantes == null || this.res.mapEntrantes == undefined) {
+          this.EnterEmpty = null;
+        } else {
+          this.res.mapEntrantesNames = Object.keys(this.res.mapEntrantes);
+          for (var e of this.res.mapEntrantesNames) {
+            this.pages[e] = 1;
+          }
+          this.EnterEmpty = Object.keys(this.res.mapEntrantes);
         }
-        this.EnterEmpty = Object.keys(this.res.mapEntrantes);
-      }
-      if (this.res.mapSortantes == null && this.res.mapSortantes == undefined) {
-        this.SortEmpty = null;
-      } else {
-        this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
-        for (var a of this.res.mapSortantesNames) {
-          this.pagesSortantes[a] = 1;
+        if (this.res.mapSortantes == null || this.res.mapSortantes == undefined) {
+          this.SortEmpty = null;
+        } else {
+          this.res.mapSortantesNames = Object.keys(this.res.mapSortantes);
+          for (var a of this.res.mapSortantesNames) {
+            this.pagesSortantes[a] = 1;
+          }
+          this.SortEmpty = Object.keys(this.res.mapSortantes);
         }
-        this.SortEmpty = Object.keys(this.res.mapSortantes);
+        this.ngxLoader.stopLoader('loader-01');
+      } else {
+        this.ngxLoader.stopLoader('loader-01');
+        this.res = null;
+        $('#errorserver').removeClass("invisible").addClass("visible");
       }
-      this.ngxLoader.stopLoader('loader-01');
-    })
+    });
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['message'] !== undefined) {
+    //this.relation = changes['relation'].currentValue;
 
+    if (changes['message'] !== undefined) {
       this.message = changes['message'].currentValue;
       this.Search(this.message, this.relation);
     }
 
 
-    if (changes['relation'] !== undefined) {
+    if (changes['relation'] !== undefined && changes['message'] == undefined) {
       this.relation = changes['relation'].currentValue;
       this.Search(this.message, this.relation);
     }
@@ -162,6 +170,7 @@ export class ResultComponent implements OnInit {
     this.message = mot;
     $('.collapse').removeClass("show");
     $('.fa-stack-1x.fa-inverse').removeClass("fa-minus").addClass("fa-plus");
+    $('#errorserver').removeClass("visible").addClass("invisible");
     this.sendMessage(mot);
   }
 
