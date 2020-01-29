@@ -24,11 +24,8 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.no_relout = false;
     this.no_relin = false;
-    this.apiWord.startServ().subscribe((res: any) => {
-      console.log("starting");
-      console.log(res);
-    })
-    //this.apiWord.getMot(message, relation).subscribe((res: Mot) => {
+    this.apiWord.startServ().subscribe(() => {
+    });
   }
 
   onSubmit(event) {
