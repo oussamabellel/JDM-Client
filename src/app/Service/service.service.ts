@@ -16,5 +16,9 @@ export class ServiceService {
     return this.httpClient.get<Mot>(`${this.Spring_API_SERVER}/word?mot=${Mot}&relation=${relation}`);
   }
 
+  startServ(): Observable<any> {
+    return this.httpClient.get("https://jdm-server.herokuapp.com/");
+  }
+
 
 }

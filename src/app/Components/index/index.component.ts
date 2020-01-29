@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as $ from 'jquery';
+import { ServiceService } from 'src/app/Service/service.service';
 
 @Component({
   selector: 'app-index',
@@ -14,7 +15,7 @@ export class IndexComponent implements OnInit {
   no_relin: boolean;
   relation: string = "";
 
-  constructor(private ngxService: NgxUiLoaderService) { }
+  constructor(private ngxService: NgxUiLoaderService, private apiWord: ServiceService) { }
 
   receiveMessage($event) {
     this.message = $event;
@@ -23,7 +24,11 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.no_relout = false;
     this.no_relin = false;
-
+    this.apiWord.startServ().subscribe((res: any) => {
+      console.log("starting");
+      console.log(res);
+    })
+    //this.apiWord.getMot(message, relation).subscribe((res: Mot) => {
   }
 
   onSubmit(event) {
